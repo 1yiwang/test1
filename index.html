@@ -60,12 +60,6 @@
         justify-content: center;
       }
 
-      .a4-stage {
-        width: auto !important;
-        height: auto !important;
-        overflow: visible !important;
-      }
-
       .poster {
         transform: none !important;
         width: 210mm !important;
@@ -254,23 +248,6 @@
       .footer {
         font-size: 6.5pt !important;
         padding-top: 2.5mm !important;
-      }
-    }
-
-    .a4-stage {
-      display: flex;
-      justify-content: center;
-      width: 100%;
-    }
-
-    @media screen and (max-width: 900px) {
-      body {
-        padding: 8px 0;
-        overflow-x: hidden;
-      }
-
-      .a4-stage {
-        overflow: hidden;
       }
     }
 
@@ -583,48 +560,228 @@
       letter-spacing: 0.06em;
     }
 
+    /* ── mobile：单列长页，字号可读 ── */
+    @media screen and (max-width: 768px) {
+      body {
+        display: block;
+        padding: 0;
+        background: var(--paper);
+        overflow-x: hidden;
+      }
+
+      .poster {
+        width: 100%;
+        max-width: 100%;
+        min-height: auto;
+        box-shadow: none;
+      }
+
+      .poster::before {
+        height: 4px;
+      }
+
+      .poster::after {
+        width: 40vw;
+        height: 40vw;
+        max-width: 160px;
+        max-height: 160px;
+      }
+
+      .inner {
+        padding: 20px 16px 28px;
+        gap: 20px;
+      }
+
+      .header {
+        grid-template-columns: 1fr;
+        gap: 14px;
+        padding-bottom: 16px;
+      }
+
+      .title-block h1 {
+        font-size: 1.85rem;
+      }
+
+      .title-block .subtitle {
+        font-size: 0.95rem;
+        margin-top: 6px;
+        letter-spacing: 0.08em;
+      }
+
+      .badge {
+        text-align: left;
+        font-size: 0.8rem;
+        border-left: none;
+        border-top: 2px solid var(--red-soft);
+        padding-left: 0;
+        padding-top: 12px;
+      }
+
+      .badge strong {
+        font-size: 0.85rem;
+      }
+
+      .stats {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 12px;
+        padding: 14px;
+      }
+
+      .stat-item:last-child {
+        grid-column: 1 / -1;
+      }
+
+      .stat-item label {
+        font-size: 0.7rem;
+        margin-bottom: 4px;
+      }
+
+      .stat-item span {
+        font-size: 1rem;
+      }
+
+      .stat-item span small {
+        font-size: 0.72rem;
+      }
+
+      .row-2,
+      .row-lists {
+        grid-template-columns: 1fr;
+        gap: 24px;
+      }
+
+      .section-head {
+        gap: 8px;
+        margin-bottom: 10px;
+        flex-wrap: wrap;
+      }
+
+      .section-head h2 {
+        font-size: 1rem;
+        white-space: normal;
+      }
+
+      .section-head .en {
+        font-size: 0.82rem;
+      }
+
+      .lang-list {
+        font-size: 0.88rem;
+      }
+
+      .lang-list li {
+        margin-bottom: 8px;
+        padding-left: 14px;
+      }
+
+      .lang-list li::before {
+        width: 5px;
+        height: 5px;
+        top: 0.6em;
+      }
+
+      .industry-grid {
+        grid-template-columns: 1fr;
+        gap: 10px;
+      }
+
+      .industry-card {
+        padding: 12px 14px;
+      }
+
+      .industry-card h3 {
+        font-size: 0.88rem;
+        margin-bottom: 6px;
+      }
+
+      .industry-card p {
+        font-size: 0.82rem;
+        line-height: 1.5;
+      }
+
+      .rank-note {
+        font-size: 0.8rem;
+        margin-top: 12px;
+        padding: 10px 12px;
+        line-height: 1.5;
+      }
+
+      .timeline {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 8px;
+      }
+
+      .tl-item {
+        font-size: 0.78rem;
+        padding: 10px;
+        line-height: 1.45;
+      }
+
+      .tl-item .year {
+        font-size: 0.82rem;
+        margin-bottom: 4px;
+      }
+
+      .ranked-list li {
+        grid-template-columns: 28px 1fr auto;
+        gap: 6px 8px;
+        padding: 12px 0;
+        font-size: 0.85rem;
+      }
+
+      .ranked-list .num {
+        font-size: 1.15rem;
+      }
+
+      .ranked-list .name em {
+        font-size: 0.78rem;
+        display: block;
+        margin-top: 2px;
+      }
+
+      .ranked-list .tag {
+        font-size: 0.75rem;
+        white-space: normal;
+        max-width: 72px;
+        line-height: 1.3;
+      }
+
+      .ranked-list .desc {
+        font-size: 0.78rem;
+        margin-top: 2px;
+        line-height: 1.45;
+      }
+
+      .footer {
+        font-size: 0.78rem;
+        padding-top: 16px;
+      }
+    }
+
+    @media screen and (max-width: 400px) {
+      .inner {
+        padding: 16px 14px 24px;
+      }
+
+      .stats {
+        grid-template-columns: 1fr;
+      }
+
+      .stat-item:last-child {
+        grid-column: auto;
+      }
+
+      .timeline {
+        grid-template-columns: 1fr;
+      }
+
+      .title-block h1 {
+        font-size: 1.65rem;
+      }
+    }
   </style>
-  <script>
-    function fitA4ToScreen() {
-      var stage = document.querySelector('.a4-stage');
-      var poster = document.querySelector('.poster');
-      if (!stage || !poster) return;
-
-      if (window.matchMedia('print').matches) {
-        poster.style.transform = '';
-        stage.style.height = '';
-        return;
-      }
-
-      var maxWidth = 900;
-      if (window.innerWidth > maxWidth) {
-        poster.style.transform = '';
-        stage.style.height = '';
-        return;
-      }
-
-      var margin = 16;
-      var available = window.innerWidth - margin;
-      if (poster.offsetWidth === 0) {
-        requestAnimationFrame(fitA4ToScreen);
-        return;
-      }
-      var scale = available / poster.offsetWidth;
-      poster.style.transform = 'scale(' + scale + ')';
-      poster.style.transformOrigin = 'top center';
-      stage.style.height = (poster.offsetHeight * scale) + 'px';
-    }
-
-    window.addEventListener('load', fitA4ToScreen);
-    window.addEventListener('resize', fitA4ToScreen);
-    window.addEventListener('orientationchange', fitA4ToScreen);
-    if (document.fonts && document.fonts.ready) {
-      document.fonts.ready.then(fitA4ToScreen);
-    }
-  </script>
 </head>
 <body>
-  <div class="a4-stage">
   <article class="poster">
     <div class="inner">
       <header class="header">
@@ -867,6 +1024,5 @@
       <footer class="footer">2026 · 瑞士日内瓦</footer>
     </div>
   </article>
-  </div>
 </body>
 </html>
