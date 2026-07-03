@@ -623,12 +623,8 @@
 
       .stats {
         grid-template-columns: repeat(2, 1fr);
-        gap: 12px;
+        gap: 10px 12px;
         padding: 14px;
-      }
-
-      .stat-item:last-child {
-        grid-column: 1 / -1;
       }
 
       .stat-item label {
@@ -761,14 +757,6 @@
     @media screen and (max-width: 400px) {
       .inner {
         padding: 16px 14px 24px;
-      }
-
-      .stats {
-        grid-template-columns: 1fr;
-      }
-
-      .stat-item:last-child {
-        grid-column: auto;
       }
 
       .timeline {
