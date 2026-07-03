@@ -1,0 +1,614 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>日内瓦城市名片 · Genève</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Noto+Serif+SC:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --red: #c8102e;
+      --red-deep: #9b0c24;
+      --red-soft: #e8334a;
+      --cream: #f3ebe0;
+      --paper: #faf6f0;
+      --beige: #e8ddd0;
+      --ink: #2a2220;
+      --ink-soft: #5c524c;
+      --line: #dccfc2;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      background: #e5ddd4;
+      font-family: "Noto Serif SC", "Songti SC", serif;
+      color: var(--ink);
+      display: flex;
+      justify-content: center;
+      padding: 24px;
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+
+    @page {
+      size: A4 portrait;
+      margin: 0;
+    }
+
+    @media print {
+      body { background: none; padding: 0; }
+      .poster { box-shadow: none; }
+      .print-hint { display: none; }
+    }
+
+    .print-hint {
+      position: fixed;
+      top: 12px;
+      right: 12px;
+      font-size: 12px;
+      color: var(--ink-soft);
+      background: var(--paper);
+      padding: 8px 12px;
+      border: 1px solid var(--line);
+    }
+
+    .poster {
+      width: 210mm;
+      min-height: 297mm;
+      background: var(--paper);
+      box-shadow: 0 8px 40px rgba(155, 12, 36, 0.1);
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .poster::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 6mm;
+      background: linear-gradient(90deg, var(--red-deep) 0%, var(--red) 50%, var(--red-soft) 100%);
+    }
+
+    .poster::after {
+      content: "";
+      position: absolute;
+      bottom: 0;
+      right: 0;
+      width: 55mm;
+      height: 55mm;
+      background: radial-gradient(circle at 100% 100%, rgba(200, 16, 46, 0.05) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .inner {
+      padding: 10mm 11mm 9mm;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 4.5mm;
+    }
+
+    /* ── header ── */
+    .header {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      align-items: end;
+      gap: 4mm;
+      padding-bottom: 3.5mm;
+      border-bottom: 0.4mm solid var(--red);
+    }
+
+    .title-block h1 {
+      font-family: "Cormorant Garamond", "Noto Serif SC", serif;
+      font-size: 28pt;
+      font-weight: 600;
+      letter-spacing: 0.02em;
+      color: var(--red-deep);
+      line-height: 1.05;
+    }
+
+    .title-block .subtitle {
+      font-family: "Cormorant Garamond", serif;
+      font-size: 13pt;
+      font-style: italic;
+      color: var(--red);
+      margin-top: 1.5mm;
+      letter-spacing: 0.12em;
+    }
+
+    .badge {
+      text-align: right;
+      font-size: 7pt;
+      color: var(--ink-soft);
+      line-height: 1.5;
+      border-left: 0.3mm solid var(--red-soft);
+      padding-left: 4mm;
+    }
+
+    .badge strong {
+      display: block;
+      font-size: 7.5pt;
+      color: var(--red-deep);
+      font-weight: 600;
+      margin-bottom: 0.5mm;
+    }
+
+    /* ── stats strip ── */
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 2mm;
+      background: var(--cream);
+      padding: 3mm 3.5mm;
+      border-left: 0.8mm solid var(--red);
+    }
+
+    .stat-item label {
+      display: block;
+      font-size: 6.5pt;
+      color: var(--ink-soft);
+      letter-spacing: 0.04em;
+      margin-bottom: 0.8mm;
+    }
+
+    .stat-item span {
+      font-size: 9pt;
+      font-weight: 600;
+      color: var(--red-deep);
+      line-height: 1.2;
+    }
+
+    .stat-item span small {
+      font-size: 6.5pt;
+      font-weight: 400;
+      color: var(--ink-soft);
+    }
+
+    /* ── section ── */
+    .section {
+      break-inside: avoid;
+    }
+
+    .section-head {
+      display: flex;
+      align-items: baseline;
+      gap: 2.5mm;
+      margin-bottom: 2mm;
+    }
+
+    .section-head h2 {
+      font-size: 9.5pt;
+      font-weight: 700;
+      color: var(--red-deep);
+      letter-spacing: 0.06em;
+      white-space: nowrap;
+    }
+
+    .section-head .line {
+      flex: 1;
+      height: 0.25mm;
+      background: var(--line);
+    }
+
+    .section-head .en {
+      font-family: "Cormorant Garamond", serif;
+      font-size: 8pt;
+      font-style: italic;
+      color: var(--red);
+    }
+
+    /* ── two-col row ── */
+    .row-2 {
+      display: grid;
+      grid-template-columns: 1fr 1.15fr;
+      gap: 5mm;
+    }
+
+    .lang-list, .industry-list {
+      font-size: 7.5pt;
+      line-height: 1.55;
+      color: var(--ink);
+    }
+
+    .lang-list li {
+      list-style: none;
+      padding-left: 3mm;
+      position: relative;
+      margin-bottom: 1mm;
+    }
+
+    .lang-list li::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 0.55em;
+      width: 1.2mm;
+      height: 1.2mm;
+      background: var(--red);
+      border-radius: 50%;
+    }
+
+    .lang-list strong { color: var(--red-deep); }
+
+    .industry-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2mm 3mm;
+    }
+
+    .industry-card {
+      background: var(--cream);
+      padding: 2mm 2.5mm;
+      border-top: 0.3mm solid var(--red);
+    }
+
+    .industry-card h3 {
+      font-size: 7.5pt;
+      font-weight: 600;
+      color: var(--red-deep);
+      margin-bottom: 0.8mm;
+    }
+
+    .industry-card p {
+      font-size: 6.8pt;
+      line-height: 1.45;
+      color: var(--ink-soft);
+    }
+
+    .rank-note {
+      font-size: 6.8pt;
+      color: var(--ink-soft);
+      margin-top: 1.5mm;
+      padding: 1.5mm 2mm;
+      background: rgba(200, 16, 46, 0.05);
+      border-left: 0.3mm solid var(--red);
+    }
+
+    /* ── history timeline ── */
+    .timeline {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1.5mm 2mm;
+    }
+
+    .tl-item {
+      font-size: 6.5pt;
+      line-height: 1.4;
+      padding: 1.5mm 2mm;
+      background: var(--cream);
+      border-left: 0.25mm solid var(--red-soft);
+    }
+
+    .tl-item .year {
+      font-weight: 700;
+      color: var(--red);
+      font-size: 7pt;
+      display: block;
+      margin-bottom: 0.3mm;
+    }
+
+    /* ── top 10 lists ── */
+    .row-lists {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 5mm;
+      flex: 1;
+    }
+
+    .ranked-list {
+      list-style: none;
+    }
+
+    .ranked-list li {
+      display: grid;
+      grid-template-columns: 5mm 1fr auto;
+      gap: 1.5mm;
+      align-items: start;
+      padding: 1.3mm 0;
+      border-bottom: 0.15mm solid var(--line);
+      font-size: 6.8pt;
+      line-height: 1.4;
+    }
+
+    .ranked-list li:last-child { border-bottom: none; }
+
+    .ranked-list .num {
+      font-family: "Cormorant Garamond", serif;
+      font-size: 9pt;
+      font-weight: 600;
+      color: var(--red);
+      line-height: 1;
+    }
+
+    .ranked-list .name {
+      font-weight: 600;
+      color: var(--ink);
+    }
+
+    .ranked-list .name em {
+      font-style: normal;
+      font-weight: 400;
+      color: var(--ink-soft);
+      font-size: 6.3pt;
+    }
+
+    .ranked-list .tag {
+      font-size: 6pt;
+      color: var(--red);
+      white-space: nowrap;
+      text-align: right;
+    }
+
+    .ranked-list .desc {
+      grid-column: 2 / -1;
+      font-size: 6.3pt;
+      color: var(--ink-soft);
+      margin-top: -0.5mm;
+    }
+
+    /* ── footer ── */
+    .footer {
+      margin-top: auto;
+      padding-top: 2.5mm;
+      border-top: 0.25mm solid var(--line);
+      text-align: center;
+      font-size: 6.5pt;
+      color: var(--ink-soft);
+      letter-spacing: 0.06em;
+    }
+  </style>
+</head>
+<body>
+  <p class="print-hint">A4 竖版 · 210×297mm · Ctrl+P 打印或导出 PDF</p>
+
+  <article class="poster">
+    <div class="inner">
+      <header class="header">
+        <div class="title-block">
+          <h1>日内瓦 · Genève</h1>
+          <p class="subtitle">International City Profile</p>
+        </div>
+        <div class="badge">
+          <strong>城市名片</strong>
+          瑞士西南端 · 日内瓦湖畔<br>
+          联合国欧洲总部所在地
+        </div>
+      </header>
+
+      <section class="stats">
+        <div class="stat-item">
+          <label>市区面积</label>
+          <span>15.86 <small>km²</small></span>
+        </div>
+        <div class="stat-item">
+          <label>州面积</label>
+          <span>282 <small>km²</small></span>
+        </div>
+        <div class="stat-item">
+          <label>市区人口</label>
+          <span>~20.9 <small>万</small></span>
+        </div>
+        <div class="stat-item">
+          <label>海拔</label>
+          <span>373.6 <small>m</small></span>
+        </div>
+        <div class="stat-item">
+          <label>外籍居民</label>
+          <span>~40% <small>180+国籍</small></span>
+        </div>
+      </section>
+
+      <div class="row-2">
+        <section class="section">
+          <div class="section-head">
+            <h2>语言</h2>
+            <span class="line"></span>
+            <span class="en">Langues</span>
+          </div>
+          <ul class="lang-list">
+            <li><strong>法语</strong> — 官方语言，瑞士法语区（Romandie）首府</li>
+            <li><strong>英语</strong> — 国际商务与外交场合广泛通用</li>
+            <li><strong>德语 / 意大利语</strong> — 少数族群使用</li>
+          </ul>
+        </section>
+
+        <section class="section">
+          <div class="section-head">
+            <h2>产业与经济</h2>
+            <span class="line"></span>
+            <span class="en">Économie</span>
+          </div>
+          <div class="industry-grid">
+            <div class="industry-card">
+              <h3>国际组织与外交</h3>
+              <p>联合国欧洲总部、WHO、WTO、ITU、ICRC 等 200+ 机构，「世界会议之都」</p>
+            </div>
+            <div class="industry-card">
+              <h3>金融与私人银行</h3>
+              <p>全球跨境财富管理枢纽，重要大宗商品交易中心</p>
+            </div>
+            <div class="industry-card">
+              <h3>制表与奢侈品</h3>
+              <p>百达翡丽、江诗丹顿、劳力士、欧米茄总部所在地</p>
+            </div>
+            <div class="industry-card">
+              <h3>科技与创新</h3>
+              <p>CERN 粒子物理实验室；1989 年万维网诞生地</p>
+            </div>
+          </div>
+          <p class="rank-note">全球金融中心排名第 15（2025）· Mercer 宜居城市全球第 3</p>
+        </section>
+      </div>
+
+      <section class="section">
+        <div class="section-head">
+          <h2>历史年表</h2>
+          <span class="line"></span>
+          <span class="en">Histoire</span>
+        </div>
+        <div class="timeline">
+          <div class="tl-item"><span class="year">前 121 年</span>罗马共和国占领</div>
+          <div class="tl-item"><span class="year">1536 年</span>加尔文抵达，宗教改革中心</div>
+          <div class="tl-item"><span class="year">1602 年</span>登城节 Escalade，击退萨伏依入侵</div>
+          <div class="tl-item"><span class="year">1815 年</span>加入瑞士联邦（第 22 州）</div>
+          <div class="tl-item"><span class="year">1864 年</span>国际红十字会成立</div>
+          <div class="tl-item"><span class="year">1919 年</span>国际联盟总部设于此</div>
+          <div class="tl-item"><span class="year">1945 年起</span>联合国欧洲总部</div>
+          <div class="tl-item"><span class="year">1954 年</span>CERN 成立；1989 年 WWW 发明</div>
+        </div>
+      </section>
+
+      <div class="row-lists">
+        <section class="section">
+          <div class="section-head">
+            <h2>著名景点 Top 10</h2>
+            <span class="line"></span>
+            <span class="en">Sites</span>
+          </div>
+          <ol class="ranked-list">
+            <li>
+              <span class="num">1</span>
+              <span class="name">Jet d'Eau <em>大喷泉</em></span>
+              <span class="tag">免费</span>
+              <span class="desc">140m 水柱，每秒 500L，城市地标</span>
+            </li>
+            <li>
+              <span class="num">2</span>
+              <span class="name">Palais des Nations <em>万国宫</em></span>
+              <span class="tag">~15 CHF</span>
+              <span class="desc">联合国欧洲总部，193 国国旗广场</span>
+            </li>
+            <li>
+              <span class="num">3</span>
+              <span class="name">Jardin Anglais <em>英国花园·花钟</em></span>
+              <span class="tag">免费</span>
+              <span class="desc">鲜花钟面，致敬制表传统</span>
+            </li>
+            <li>
+              <span class="num">4</span>
+              <span class="name">St. Pierre Cathedral <em>圣皮埃尔大教堂</em></span>
+              <span class="tag">登塔 ~7 CHF</span>
+              <span class="desc">加尔文布道地，157 级台阶俯瞰全城</span>
+            </li>
+            <li>
+              <span class="num">5</span>
+              <span class="name">Vieille Ville <em>日内瓦老城</em></span>
+              <span class="tag">免费</span>
+              <span class="desc">中世纪街巷，Bourg-de-Four 广场</span>
+            </li>
+            <li>
+              <span class="num">6</span>
+              <span class="name">Red Cross Museum <em>红十字博物馆</em></span>
+              <span class="tag">~15 CHF</span>
+              <span class="desc">1864 年日内瓦公约与人道主义展</span>
+            </li>
+            <li>
+              <span class="num">7</span>
+              <span class="name">Patek Philippe Museum <em>百达翡丽博物馆</em></span>
+              <span class="tag">~10 CHF</span>
+              <span class="desc">16 世纪至今 2,500 件钟表珍品</span>
+            </li>
+            <li>
+              <span class="num">8</span>
+              <span class="name">Lake Geneva Cruise <em>日内瓦湖游船</em></span>
+              <span class="tag">~42 CHF</span>
+              <span class="desc">蒸汽船环湖，远眺勃朗峰与葡萄园</span>
+            </li>
+            <li>
+              <span class="num">9</span>
+              <span class="name">Reformation Wall <em>宗教改革纪念碑</em></span>
+              <span class="tag">免费</span>
+              <span class="desc">加尔文等改革家花岗岩雕像</span>
+            </li>
+            <li>
+              <span class="num">10</span>
+              <span class="name">Carouge <em>卡鲁日区</em></span>
+              <span class="tag">免费</span>
+              <span class="desc">18 世纪撒丁风情街区，「日内瓦的普罗旺斯」</span>
+            </li>
+          </ol>
+        </section>
+
+        <section class="section">
+          <div class="section-head">
+            <h2>特色餐馆 Top 10</h2>
+            <span class="line"></span>
+            <span class="en">Restaurants</span>
+          </div>
+          <ol class="ranked-list">
+            <li>
+              <span class="num">1</span>
+              <span class="name">Les Armures <em>老城</em></span>
+              <span class="tag">~50 CHF</span>
+              <span class="desc">17 世纪建筑，经典芝士火锅</span>
+            </li>
+            <li>
+              <span class="num">2</span>
+              <span class="name">Café du Soleil <em>Petit Saconnex</em></span>
+              <span class="tag">~40 CHF</span>
+              <span class="desc">400 年历史 bistro，Gruyère fondue</span>
+            </li>
+            <li>
+              <span class="num">3</span>
+              <span class="name">Auberge de Savièse <em>Eaux-Vives</em></span>
+              <span class="tag">~45 CHF</span>
+              <span class="desc">瓦莱州菜：rösti、fondue、raclette</span>
+            </li>
+            <li>
+              <span class="num">4</span>
+              <span class="name">Café du Bourg-de-Four <em>老城</em></span>
+              <span class="tag">~35 CHF</span>
+              <span class="desc">1874 年至今，招牌 rösti</span>
+            </li>
+            <li>
+              <span class="num">5</span>
+              <span class="name">Bains des Pâquis Buvette <em>湖边</em></span>
+              <span class="tag">~30 CHF</span>
+              <span class="desc">湖心栈桥，芝士火锅配气泡酒</span>
+            </li>
+            <li>
+              <span class="num">6</span>
+              <span class="name">Le Chat-Botté <em>Beau-Rivage</em></span>
+              <span class="tag">~150 CHF</span>
+              <span class="desc">米其林一星，法式 fine dining</span>
+            </li>
+            <li>
+              <span class="num">7</span>
+              <span class="name">Brasserie L'Ancienne <em>老城</em></span>
+              <span class="tag">~45 CHF</span>
+              <span class="desc">传统瑞士菜与现代演绎</span>
+            </li>
+            <li>
+              <span class="num">8</span>
+              <span class="name">La Chaumière <em>Troinex</em></span>
+              <span class="tag">~70 CHF</span>
+              <span class="desc">田园 cottage，farm-to-table</span>
+            </li>
+            <li>
+              <span class="num">9</span>
+              <span class="name">Domaine de Châteauvieux <em>Satigny</em></span>
+              <span class="tag">~120 CHF</span>
+              <span class="desc">米其林星，葡萄园区狩猎菜单</span>
+            </li>
+            <li>
+              <span class="num">10</span>
+              <span class="name">Le Petit Chalet <em>近老城</em></span>
+              <span class="tag">~40 CHF</span>
+              <span class="desc">木屋风 raclette 与自制香肠</span>
+            </li>
+          </ol>
+        </section>
+      </div>
+
+      <footer class="footer">2026 · 瑞士日内瓦</footer>
+    </div>
+  </article>
+</body>
+</html>
